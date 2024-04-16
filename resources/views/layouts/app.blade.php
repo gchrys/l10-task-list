@@ -17,7 +17,7 @@
       @apply shadow-sm appearance-none border w-full py-2 px-3 text-slate-700 leading-tight focus:outline-none
     }
     .error{
-      @apply text-sm text-red-500
+      @apply mb-10 px-4 py-3 rounded border border-red-600 bg-red-200 text-lg text-red-700
     }
     .success{
       @apply mb-10 px-4 py-3 rounded border border-green-600 bg-green-200 text-lg text-green-700
