@@ -2,48 +2,39 @@
 
 @section('title', $task->title)
 
-@section('styles')
-<style>
-    .success-message{
-        color: green;
-        font-size: 0.8rem;
-    }
-</style>
-@endsection
-
 @section('content')
-  <p>{{ $task->description }}</p>
+  <nav class="mb-4">
+        <a class="font-medium text-gray-700 border-b-2 border-blue-500 hover:border-blue-900" href="{{ route('tasks.index') }}"><- Back</a>
+    </nav>
+  <p class="mb-4 text-slate-700">{{ $task->description }}</p>
 
   @if ($task->long_description)
-    <p>{{ $task->long_description }}</p>
+    <p class="mb-4 text-slate-700">{{ $task->long_description }}</p>
   @endif
 
-  <p>{{ $task->created_at }}</p>
-  <p>{{ $task->updated_at }}</p>
+  <p class="text-sm mb-4 text-slate-500">Created: {{ $task->created_at->diffForHumans() }} | Updated: {{ $task->updated_at->diffForHumans() }}</p>
 
-  <p>@if($task->completed) 
-    Completed 
+  <p class="mb-4">@if($task->completed) 
+    <span class="text-medium text-green-700">Completed</span> 
     @else
-    Not completed
+    <span class="text-gray-500">Not completed</span>
     @endif
   </p>
-<div>
-  <a href="{{ route('tasks.edit', ['task'=>$task->id]) }}">Edit Task</a>
-</div>
+<div class="flex gap-2">
+  <a class="btn ring-gray-700 text-gray-700 hover:bg-slate-50" href="{{ route('tasks.edit', ['task'=>$task->id]) }}">Edit Task</a>
 
-<div>
 <form action="{{ route('tasks.toggle',['task'=>$task->id]) }}" method="POST">
       @csrf
       @method("PUT")
-      <button type="submit">Mark as {{ $task->completed ? "not completed" : "completed" }}</button>
+      <button 
+      @class(['btn','ring-green-700 text-green-700 hover:bg-green-700 hover:text-white' => !$task->completed,'ring-orange-700 text-orange-700 hover:bg-orange-700 hover:text-white'=>$task->completed])
+        type="submit">Mark as {{ $task->completed ? "not completed" : "completed" }}</button>
   </form>
-</div>
 
-  <div>
     <form action="{{ route('tasks.destroy',['task'=>$task->id]) }}" method="POST">
       @csrf
       @method("DELETE")
-      <button type="submit">Delete</button>
+      <button class="btn ring-rose-700 text-white bg-rose-700" type="submit">Delete</button>
   </form>
   </div>
 @endsection
